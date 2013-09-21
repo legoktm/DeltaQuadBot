@@ -99,45 +99,49 @@ def searchlist(line, listtype):
                 splitline = splitline.split(" ")
                 for entry in splitline:                        
                         if entry in line:
-                                if not re.search('[a-z]|[A-Z]|[0-9]',entry) == None:continue
+                                if not re.search('[a-z]|[A-Z]|[0-9]',entry) == None:
+                                    continue
                                 matchnum = matchnum +1
         if matchnum > 1:
             return [False, 'Attempting to skip filters using multiple similiar charecters','LOW_CONFIDENCE,NOTE(Multiple characters like ν and ә can be contained in the same phrase, this rule detects when one or more occurs)']
         return True
 
 def checkUser(user,waittilledit,noEdit):
-        bltest = searchlist(user, "bl")
-        try:
-            line = str(bltest[1])
-        except:
-            trace = traceback.format_exc() # Traceback.
-            print trace # Print.
-            return
-        flags = str(bltest[2])
-        if bltest[0]:
-                if searchlist(user, "wl"):
-                        return
-                elif noEdit:
-                        print'No edit - 1' + str(bltest[1]) +" "+ str(bltest[2])
-                        return 
-                else: post(user,str(bltest[1]),str(bltest[2]),str(waittilledit))
-        if "NO_SIM_MATCH" in flags:return
-        slcheck = searchlist(user, "sl")
-        if slcheck == True:a=1
-        elif waittilledit != False and 'WAIT_TILL_EDIT' in str(slcheck[2]):waittilledit = True
-        try:
-                if not slcheck[0] and not bltest[0]:
-                        if noEdit:
-                                print "No edit - 2 "+str(slcheck[1]) +" "+ str(slcheck[2])
-                                return
-                        return post(user,str(slcheck[1]),str(slcheck[2]),str(waittilledit))
-        except:
-                if not slcheck and not bltest[0]:
-                        if noEdit:
-                                print "No edit - 3"+str(slcheck[1]) +" "+ str(slcheck[2])
-                                return
-                        return post(user,str(slcheck[1]),str(slcheck[2]),str(waittilledit))
+    bltest = searchlist(user, "bl")
+    try:
+        line = str(bltest[1])
+    except:
+        trace = traceback.format_exc() # Traceback.
+        print trace  # Print.
         return
+    flags = str(bltest[2])
+    if bltest[0]:
+        if searchlist(user, "wl"):
+            return
+        elif noEdit:
+            print'No edit - 1' + str(bltest[1]) +" "+ str(bltest[2])
+            return 
+        else: post(user,str(bltest[1]),str(bltest[2]),str(waittilledit))
+    if "NO_SIM_MATCH" in flags:
+        return
+    slcheck = searchlist(user, "sl")
+    if slcheck == True:
+        a=1
+    elif waittilledit != False and 'WAIT_TILL_EDIT' in str(slcheck[2]):
+        waittilledit = True
+    try:
+        if not slcheck[0] and not bltest[0]:
+            if noEdit:
+                print "No edit - 2 "+str(slcheck[1]) +" "+ str(slcheck[2])
+                return
+            return post(user,str(slcheck[1]),str(slcheck[2]),str(waittilledit))
+    except:
+        if not slcheck and not bltest[0]:
+            if noEdit:
+                print "No edit - 3"+str(slcheck[1]) +" "+ str(slcheck[2])
+                return
+            return post(user,str(slcheck[1]),str(slcheck[2]),str(waittilledit))
+    return
 
 
 def main():
@@ -283,9 +287,12 @@ def checkWait():
     waiters = waiters.replace("*{{User|","")
     waiters = waiters.split("\n")
     for waiter in waiters:
-        if waiter == "":continue#Non-existant user
-        if checkRegisterTime(waiter, 7):continue
-        if checkBlocked(waiter):continue#If user is blocked, skip putting them back on the list.
+        if waiter == "":
+            continue#Non-existant user
+        if checkRegisterTime(waiter, 7):
+            continue
+        if checkBlocked(waiter):
+            continue#If user is blocked, skip putting them back on the list.
         if getEditCount(waiter) == True:#If edited, send them to UAA
             checkUser(waiter,False,False)
             continue
