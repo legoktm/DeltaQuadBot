@@ -6,10 +6,6 @@ import time
 import json
 import re
 
-import localconfig
-if platform.system() == "Windows":
-        sys.path.append(localconfig.winpath)
-else:sys.path.append(localconfig.linuxpath)
 import wikipedia
 import userlib
 
@@ -300,4 +296,5 @@ global wl
 wl = getlist("wl")
 global sl
 sl = getlist("sl")
-checkUser("Bennentthebastard",False,False)
+if __name__ == '__main__':
+    checkUser("Bennentthebastard",False,False)
