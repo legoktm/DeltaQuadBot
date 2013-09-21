@@ -93,15 +93,15 @@ def searchlist(line, listtype):
             i = i+1
         matchnum = 0
         for eachline in sl:
-                if eachline == "":
-                    continue
-                splitline = eachline.split(": ")[1]
-                splitline = splitline.split(" ")
-                for entry in splitline:                        
-                        if entry in line:
-                                if not re.search('[a-z]|[A-Z]|[0-9]',entry) == None:
-                                    continue
-                                matchnum = matchnum +1
+            if eachline == "":
+                continue
+            splitline = eachline.split(": ")[1]
+            splitline = splitline.split(" ")
+            for entry in splitline:
+                if entry in line:
+                    if not re.search('[a-z]|[A-Z]|[0-9]',entry) == None:
+                        continue
+                    matchnum += 1
         if matchnum > 1:
             return [False, 'Attempting to skip filters using multiple similiar charecters','LOW_CONFIDENCE,NOTE(Multiple characters like ν and ә can be contained in the same phrase, this rule detects when one or more occurs)']
         return True
