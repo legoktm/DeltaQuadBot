@@ -5,7 +5,7 @@ import platform
 import time
 import json
 import re
-
+sys.path.append('/data/project/legobot/compat')
 import wikipedia
 import userlib
 
